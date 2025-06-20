@@ -1,0 +1,107 @@
+version: "3.8"
+
+services:
+  kafka:
+    image: docker.io/bitnami/kafka:3.8
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    networks:
+      - linkedin-network
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      # Listener configuration
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+
+  kafbat-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: kafbat-ui
+    ports:
+      - "8090:8080"
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_KSQLDBSERVER=http://ksqldb0:8088
+    networks:
+      - linkedin-network
+
+  # notification-db:
+  #   image: postgres:latest
+  #   container_name: notification-db
+  #   environment:
+  #     - POSTGRES_USER: postgres
+  #     - POSTGRES_PASSWORD: postgres
+  #     - POSTGRES_DB: notificationDB
+  #   networks:
+  #     - linkedin-network
+  #   volumes:
+  #     - notification-db-data:/var/lib/postgresql/data
+  
+  discovery-server:
+    image: jagadeesh182/linkedin/discovery-server
+    container_name: discovery-server
+    networks:
+      - linkedin-network
+    ports:
+      - "8761:8761"
+
+  posts-service:
+    image: jagadeesh182/linkedin/posts-service
+    container_name: posts-service
+    networks:
+      - linkedin-network
+    depends_on:
+      - discovery-server
+      - kafka
+  user-service:
+    image: jagadeesh182/linkedin/user-service
+    container_name: user-service
+    networks:
+      - linkedin-network
+    depends_on:
+      - discovery-server
+      - kafka
+  notification-service:
+    image: jagadeesh182/linkedin/notification-service 
+    container_name: notification-service
+    networks:
+      - linkedin-network
+    depends_on:
+      - discovery-server
+      - kafka
+      # - notification-db
+  connections-service:
+    image: jagadeesh182/linkedin/connections-service
+    container_name: connections-service
+    networks:
+      - linkedin-network
+    depends_on:
+      - discovery-server
+      - kafka
+  api-gateway:
+    image: jagadeesh182/linkedin/api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - linkedin-network
+    depends_on:
+      - discovery-server
+    
+
+networks:
+  linkedin-network:
+
+volumes:
+  kafka_data:
+  # notification-db-data:

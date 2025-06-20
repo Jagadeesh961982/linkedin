@@ -1,0 +1,27 @@
+How to setup kafka?
+
+first create a folder named kafka and download kafka with this command
+wget https://downloads.apache.org/kafka/3.8.0/kafka_2.13-3.8.0.tgz
+
+and then open the files with command
+tar -xzf kafka_2.13-3.8.0.tgz
+cd kafka_2.13-3.8.0
+
+Generate a Cluster UUID
+KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
+
+Format Log Directories
+bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/kraft/server.properties
+
+
+start the kafka server
+bin/kafka-server-start.sh config/kraft/server.properties
+
+So before you can write your first events, you must create a topic. Open another terminal session and run:
+bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
+
+now start the producer and send the messages
+bin/kafka-console-producer.sh --topic quickstart-events --bootstrap-server localhost:9092
+
+Open another terminal session and run the console consumer client to read the events you just created:
+bin/kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092

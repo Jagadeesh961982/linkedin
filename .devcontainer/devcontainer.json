@@ -1,0 +1,29 @@
+{
+  "name": "Kubernetes Project (via kind)",
+  // Use a base image that includes common tools.
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+
+  // Enable Docker-in-Docker and install kubectl, Helm, and kind.
+  // This is the easiest way to add the necessary features.
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers-contrib/features/kind:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers-contrib/features/kubectl-helm-oc:1": {
+        "version": "latest"
+    }
+  },
+
+  // Keep the container running after it's created.
+  "shutdownAction": "stopContainer",
+
+  // Optional: Forward common ports automatically.
+  "forwardPorts": [8080, 5000],
+
+  // Optional: Run a command after the container is created.
+  // For example, you could automatically create the cluster.
+  "postCreateCommand": "kind create cluster --name my-dev-cluster"
+}
