@@ -2,8 +2,6 @@
 
 A responsive and efficient user search application built with React and Material-UI. This project provides a clean interface to search, sort, and filter user data fetched from a public API. All data operations are performed on the client-side for a fast and seamless user experience.
 
-![User Search Dashboard Screenshot](https://via.placeholder.com/800x450.png?text=User+Search+Dashboard+UI)
-*(Note: You can replace the placeholder URL with an actual screenshot of your application)*
 
 ## Table of Contents
 
@@ -17,7 +15,7 @@ A responsive and efficient user search application built with React and Material
 
 ## Features
 
--   **Live Data Fetching**: Fetches a complete list of users from the `dummyjson.com` public API on application load.
+-   **Live Data Fetching**: Fetches a complete list of users from the backend API on application load.
 -   **Client-Side Search**: Instantly searches for users by first name, last name, or SSN. A minimum of 3 characters is required to initiate a search.
 -   **Client-Side Sorting**: Sorts the displayed users by age in either ascending or descending order.
 -   **Role-Based Filtering**: Filters the user list based on their assigned role (`admin`, `moderator`, `user`).
