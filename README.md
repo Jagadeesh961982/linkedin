@@ -88,8 +88,7 @@ This is the simplest way to run the entire stack.
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url>
-    cd <your-project-directory>
+    cd <folder-name> .mvnw clean install spring-boot:build-image
     ```
 
 2.  **Run Docker Compose:**
