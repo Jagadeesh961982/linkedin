@@ -56,9 +56,9 @@ This project follows a classic microservices pattern with a central discovery se
 | --------------------- | ----------- | ------------------------------------------------------------------------------------------------------- |
 | `discovery-server`    | `8761`      | The Eureka server for service registration and discovery.                                               |
 | `api-gateway`         | `8030`      | The single entry point for all incoming requests. Handles routing and JWT validation.                   |
-| `user-service`        | (Internal)  | Manages user accounts, handles signup/login, and generates JWTs.                                        |
-| `sapient-service`     | (Internal)  | Loads and serves a collection of dummy user profiles from `dummyjson.com` and provides search functionality. |
-| `preferences-service` | (Internal)  | Contains the core business logic. Allows authenticated users to "like" dummy users, communicating with other services. |
+| `user-service`        | `8010`  | Manages user accounts, handles signup/login, and generates JWTs.                                        |
+| `sapient-service`     | `8020`  | Loads and serves a collection of dummy user profiles from `dummyjson.com` and provides search functionality. |
+| `preferences-service` | `8040`  | Contains the core business logic. Allows authenticated users to "like" dummy users, communicating with other services. |
 
 ### Technology Stack
 
