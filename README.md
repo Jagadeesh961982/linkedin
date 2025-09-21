@@ -43,5 +43,6 @@ Follow these steps to get the application up and running on your local machine.
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
 cd frontend/client
+npm i
+npm run dev
